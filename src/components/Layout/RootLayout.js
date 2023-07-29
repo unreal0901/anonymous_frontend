@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 
 import Logo from "../../Assets/android-chrome-192x192.png";
@@ -6,11 +6,14 @@ import Breadcrumbs from "./BreadCrumbs";
 import { useSelector } from "react-redux";
 import { getCurrentBoard } from "../../features/Boards/BoardSlice";
 import { getCurrentThread } from "../../features/Threads/ThreadSlice";
+import { createPortal } from "react-dom";
+import CreateBoardModal from "./CreateBoardModal";
 
 const RootLayout = () => {
   const { id, tid } = useParams();
   const boardData = useSelector(getCurrentBoard);
   const threadData = useSelector(getCurrentThread);
+  const [createBoardModal, setCreateBoardModal] = useState(false);
 
   return (
     <>
@@ -58,10 +61,21 @@ const RootLayout = () => {
         <main>
           <div className="border-b-2 mb-5 flex gap-3">
             {!id && !tid && (
-              <div className="">
+              <div className="flex items-center gap-5 justify-between w-full">
                 <div className="my-5 bg-[#317fb6] w-max p-2 rounded-md text-white ">
                   <h2 className="text-md font-semibold">Boards</h2>
                   <p className="text-sm">Currently opened boards</p>
+                </div>
+                <div className="">
+                  <button
+                    onClick={() => {
+                      console.log("Clicked");
+                      setCreateBoardModal((prev) => !prev);
+                    }}
+                    className="w-max  px-3 bg-pink-200  py-3 rounded mr-10"
+                  >
+                    Add Board
+                  </button>
                 </div>
               </div>
             )}
@@ -89,6 +103,12 @@ const RootLayout = () => {
           <Outlet />
         </main>
       </div>
+      {createBoardModal
+        ? createPortal(
+            <CreateBoardModal closeModal={setCreateBoardModal} />,
+            document.body
+          )
+        : null}
     </>
   );
 };

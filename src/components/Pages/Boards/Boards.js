@@ -18,7 +18,7 @@ const Boards = () => {
         <div className="boards flex gap-3 flex-wrap">
           {data?.map((board) => (
             <Link
-              className="relative block  sm:max-w-[50%] md:max-w-[25%]  bg-[#F9F9FB] p-[20px] rounded-lg mt-5 "
+              className="relative block  sm:max-w-[50%] md:max-w-[23%]  bg-[#F9F9FB] p-[20px] rounded-lg mt-5 "
               to={`${board.boardNumber}`}
               key={board.boardNumber}
             >
