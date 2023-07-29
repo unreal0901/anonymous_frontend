@@ -13,7 +13,11 @@ const Post = ({ postData }) => {
   console.log(post);
 
   const getContent = (content) => {
-    let cleanHtml = sanitizeHtml(content);
+    let cleanHtml = sanitizeHtml(content, {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+      allowedAttributes: { img: ["src"] },
+      allowedSchemes: ["data", "http", "https"],
+    });
     return cleanHtml;
   };
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useGetBoardThreadsQuery } from "../../../services/api/ThreadApi";
 import sanitizeHtml from "sanitize-html";
 import Avatar from "react-avatar";
@@ -8,16 +8,50 @@ import Avatar from "react-avatar";
 import ThreadCreator from "./ThreadCreator";
 import { useGetBoardQuery } from "../../../services/api/BoardApi";
 import Shimmer from "../../Shimmer/Shimmer";
+import { useEffect } from "react";
 const { format, formatDistanceToNow } = require("date-fns");
 
 const Threads = () => {
   const { id } = useParams();
-  const { boardData } = useGetBoardQuery(id, {
+  const navigate = useNavigate();
+  const {
+    boardData,
+    isError: boardError,
+    isLoading: boardLoading,
+    isFetching: boardFetching,
+  } = useGetBoardQuery(id, {
     refetchOnMountOrArgChange: true,
   });
-  const { data, isFetching, isLoading } = useGetBoardThreadsQuery(id, {
+  const {
+    data,
+    isFetching,
+    isLoading,
+    isError: threadError,
+  } = useGetBoardThreadsQuery(id, {
     refetchOnMountOrArgChange: true,
   });
+
+  useEffect(() => {
+    if (boardError && !(boardLoading || boardFetching)) {
+      navigate("/error", {
+        state: { reason: "Cannot fetch this board", boardId: id },
+      });
+    }
+    if (threadError && !(isLoading || isFetching)) {
+      navigate("/error", {
+        state: { reason: "Cannot fetch threads for this board", boardId: id },
+      });
+    }
+  }, [
+    boardError,
+    threadError,
+    boardLoading,
+    boardFetching,
+    isLoading,
+    isFetching,
+    navigate,
+    id,
+  ]);
 
   const [threadCreator, showThreadCreator] = useState(false);
 
@@ -79,7 +113,7 @@ const Threads = () => {
             </button>
           </div>
         </div>
-        {isFetching || isLoading ? (
+        {isFetching || isLoading || boardFetching || boardLoading ? (
           <div className="mt-12 w-[95%] flex flex-col gap-2">
             {[1, 2, 3, 4].map((e, i) => (
               <Shimmer key={i} h="7rem" w="100%" />
@@ -87,7 +121,7 @@ const Threads = () => {
           </div>
         ) : (
           <div className="mt-12 w-[95%] ">
-            {data.map((thread) => {
+            {data?.map((thread) => {
               const threaduri = `thread/${thread?.threadNumber}`;
               return (
                 <div

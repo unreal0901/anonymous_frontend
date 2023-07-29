@@ -48,7 +48,7 @@ const IndividualBoard = () => {
             )}
 
             <code className="py-[2px] px-3 border-2 rounded-lg text-sm block w-max mt-2">
-              {boardData?.threadNumber || 0} threads
+              {boardData?.threadCount || 0} threads
             </code>
           </div>
         </div>

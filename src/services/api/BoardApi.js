@@ -40,6 +40,7 @@ export const boardApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
+
           dispatch(setBoard(data));
         } catch (error) {}
       },

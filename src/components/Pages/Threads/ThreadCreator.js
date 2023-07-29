@@ -1,17 +1,32 @@
 import React, { useState } from "react";
-import ReactQuill from "react-quill";
+import ImageCompress from "quill-image-compress";
+
+import ReactQuill, { Quill } from "react-quill";
 import { Field, Formik } from "formik";
 import sanitizeHtml from "sanitize-html";
 import "react-quill/dist/quill.snow.css";
 import { usePostThreadMutation } from "../../../services/api/ThreadApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCurrentBoard } from "../../../features/Boards/BoardSlice";
+import { boardApi } from "../../../services/api/BoardApi";
+import { useEffect } from "react";
 const ThreadCreator = ({ closeModal }) => {
+  const dispatch = useDispatch();
+  Quill.register("modules/imageCompress", ImageCompress);
+
   const board = useSelector(getCurrentBoard);
   const boardName = board?.name;
 
   const [postThread, { isError, isLoading, isSuccess }] =
     usePostThreadMutation();
+
+  const [trigger] = boardApi.endpoints.getBoard.useLazyQuery();
+
+  useEffect(() => {
+    if (isSuccess && !isLoading && !isError) {
+      trigger(board?.boardNumber);
+    }
+  }, [isSuccess, isLoading, dispatch, board?.boardNumber, isError, trigger]);
 
   const modules = {
     toolbar: [
@@ -23,9 +38,32 @@ const ThreadCreator = ({ closeModal }) => {
         { indent: "-1" },
         { indent: "+1" },
       ],
-      ["link", "image"],
+      ["link"],
     ],
+    imageCompress: {
+      quality: 0.7, // default
+      maxWidth: 1000, // default
+      maxHeight: 1000, // default
+      imageType: "image/jpeg", // default
+      debug: true, // default
+      suppressErrorLogging: false, // default
+      insertIntoEditor: undefined, // default
+    },
   };
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+  ];
 
   const formHandler = async (values, { setSubmitting, resetForm }) => {
     const payload = {
@@ -47,7 +85,7 @@ const ThreadCreator = ({ closeModal }) => {
 
   return (
     <>
-      <div className="overflow-y-auto fixed w-[90%] bg-white  h-[90vh] rounded-xl top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] border-4">
+      <div className="border-2 shadow-2xl overflow-y-auto fixed w-[90%] bg-white  h-[90vh] rounded-xl top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] ">
         <button
           onClick={closeModal}
           className="text-white relative flex justify-center float-right text-[2rem] w-6 h-6 bg-[#317FB6] rounded-full mt-2 mr-2"
@@ -75,8 +113,8 @@ const ThreadCreator = ({ closeModal }) => {
             <>
               <form onSubmit={handleSubmit}>
                 <div>
-                  <div className="mt-10 p-5">
-                    <div className="title mb-4 ">
+                  <div className="mt-10 py-5 px-10">
+                    <div className="title mb-5 ">
                       <p className="font-semibold  text-[1rem] text-[#317FB6]">
                         Subject
                       </p>
@@ -93,10 +131,10 @@ const ThreadCreator = ({ closeModal }) => {
                         onBlur={handleBlur}
                         value={values.subject}
                         type="text"
-                        className="border-gray-400 border-[1px] w-[90%] rounded-md focus:border-[#317FB6] outline-none text-[1rem] py-[5px] px-2"
+                        className="border-gray-400 border-[1px] w-[100%] rounded-md focus:border-[#317FB6] outline-none text-[1rem] py-[5px] px-2"
                       />
                     </div>
-                    <div className="title mb-4 ">
+                    <div className="title mb-5 ">
                       <p className="font-semibold  text-[1rem] text-[#317FB6]">
                         Username
                       </p>
@@ -110,10 +148,10 @@ const ThreadCreator = ({ closeModal }) => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        className="border-gray-400 border-[1px] w-[90%] rounded-md focus:border-[#317FB6] outline-none text-[1rem] py-[5px] px-2"
+                        className="border-gray-400 border-[1px] w-[100%] rounded-md focus:border-[#317FB6] outline-none text-[1rem] py-[5px] px-2"
                       />
                     </div>
-                    <div className="title mb-4 ">
+                    <div className="title mb-5 ">
                       <p className="font-semibold  text-[1rem] text-[#317FB6]">
                         Tags
                       </p>
@@ -127,10 +165,10 @@ const ThreadCreator = ({ closeModal }) => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        className="border-gray-400 border-[1px] w-[90%] rounded-md focus:border-[#317FB6] outline-none text-[1rem] py-[5px] px-2"
+                        className="border-gray-400 border-[1px] w-[100%] rounded-md focus:border-[#317FB6] outline-none text-[1rem] py-[5px] px-2"
                       />
                     </div>
-                    <div>
+                    <div className="mb-4">
                       <p className="font-semibold  text-[1rem] text-[#317FB6]">
                         Content
                       </p>
@@ -157,12 +195,12 @@ const ThreadCreator = ({ closeModal }) => {
                             <ReactQuill
                               name={field.name}
                               id={field.name}
-                              // style={{ minHeight: "10rem" }}
                               placeholder="Write the Thread content here..."
                               theme="snow"
                               value={field.value}
                               onChange={field.onChange(field.name)}
                               modules={modules}
+                              formats={formats}
                             />
                           )}
                         </Field>
@@ -173,7 +211,7 @@ const ThreadCreator = ({ closeModal }) => {
                           </p>
                         )}
                       </div>
-                      <div className="mt-5">
+                      <div className="mt-10">
                         <button
                           type="submit"
                           className="bg-[#317FB6] px-3 py-2 rounded-lg text-white"
