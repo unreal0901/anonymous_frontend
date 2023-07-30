@@ -12,13 +12,14 @@ import IndividualBoard from "./components/Pages/Boards/IndividualBoard";
 import Thread from "./components/Pages/Threads/Thread";
 import Threads from "./components/Pages/Threads/Threads";
 import ErrorPage from "./components/Pages/ErrorPage/ErrorPage";
+import HomeLayout from "./components/Layout/HomeLayout";
 
 // Pages
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<RootLayout />}>
-        <Route index element={<Boards />} />
+        <Route index element={<HomeLayout />} />
         <Route path="boards" element={<BoardLayout />}>
           <Route index element={<Boards />} />
           <Route path=":id" element={<IndividualBoard />}>

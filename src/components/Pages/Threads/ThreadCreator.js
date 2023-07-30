@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ImageCompress from "quill-image-compress";
 
 import ReactQuill, { Quill } from "react-quill";
-import { Field, Formik } from "formik";
+import { ErrorMessage, Field, Formik } from "formik";
 import sanitizeHtml from "sanitize-html";
 import "react-quill/dist/quill.snow.css";
 import { usePostThreadMutation } from "../../../services/api/ThreadApi";
@@ -85,14 +85,20 @@ const ThreadCreator = ({ closeModal }) => {
 
   return (
     <>
-      <div className="border-2 shadow-2xl overflow-y-auto fixed w-[90%] bg-white  h-[90vh] rounded-xl top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] ">
-        <button
+      <div className="thread_modal shadow-lg  p-3  overflow-y-auto fixed w-[80%] bg-white  h-[85vh] rounded-xl top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] ">
+        {/* <button
           onClick={closeModal}
           className="text-white relative flex justify-center float-right text-[2rem] w-6 h-6 bg-[#317FB6] rounded-full mt-2 mr-2"
         >
           <div className="w-1  h-full bg-white rotate-45 absolute"></div>
           <div className="w-1  h-full bg-white absolute -rotate-45"></div>
-        </button>
+        </button> */}
+        <div
+          className="close_btn ml-auto w-min mr-2  mt-2 p-1 text-2xl text-red-400 hover:text-red-900 cursor-pointer"
+          onClick={closeModal}
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </div>
         <Formik
           initialValues={{
             subject: "",
@@ -101,6 +107,24 @@ const ThreadCreator = ({ closeModal }) => {
             tags: "",
           }}
           onSubmit={formHandler}
+          validate={(values) => {
+            const errors = {};
+
+            let cleanHtml = sanitizeHtml(values.content);
+            const tempElement = document.createElement("div");
+            tempElement.innerHTML = cleanHtml;
+            let plainText = tempElement.textContent || tempElement.innerText;
+            tempElement.remove();
+
+            if (!values.subject) {
+              errors.subject = "Thread name is required";
+            } else if (!values.tags) {
+              errors.tags = "At least one tag is required";
+            } else if (plainText.length <= 0)
+              errors.content = "Content can't be empty";
+
+            return errors;
+          }}
         >
           {({
             handleSubmit,
@@ -109,114 +133,124 @@ const ThreadCreator = ({ closeModal }) => {
             handleChange,
             errors,
             touched,
+            isSubmitting,
           }) => (
             <>
               <form onSubmit={handleSubmit}>
                 <div>
-                  <div className="mt-10 py-5 px-10">
+                  <div className=" py-5 px-10">
                     <div className="title mb-5 ">
-                      <p className="font-semibold  text-[1rem] text-[#317FB6]">
-                        Subject
-                      </p>
+                      <label
+                        htmlFor="subject"
+                        className="subject_label w-full block mb-1 text-lg font-medium text-[#317FB6] "
+                      >
+                        Thread Subject
+                      </label>
                       <p className="text-[0.8rem] text-gray-600 mt-1">
                         Enter the subject, this will be shown as heading of your
                         thread
                       </p>
                       <input
-                        required
                         id="subject"
                         name="subject"
-                        disabled={isLoading}
+                        required
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.subject}
-                        type="text"
-                        className="border-gray-400 border-[1px] w-[100%] rounded-md focus:border-[#317FB6] outline-none text-[1rem] py-[5px] px-2"
+                        placeholder="Enter the Thread Subject"
+                        className="w-full text-sm shadow-sm py-2 px-3 text-gray-900 rounded-md border bg-gray-50 outline-none  focus:ring-2 focus:ring-offset-0 focus:ring-blue-500"
                       />
+                      <ErrorMessage name="subject">
+                        {(msg) => (
+                          <p className="text-sm text-red-400 mt-1">{`*${msg}`}</p>
+                        )}
+                      </ErrorMessage>
                     </div>
                     <div className="title mb-5 ">
-                      <p className="font-semibold  text-[1rem] text-[#317FB6]">
-                        Username
-                      </p>
+                      <label
+                        htmlFor="user"
+                        className="user_label w-full block mb-1 text-lg font-medium text-[#317FB6] "
+                      >
+                        User
+                      </label>
                       <p className="text-[0.8rem] text-gray-600 mt-1">
                         Enter the dummy username (optional)
                       </p>
                       <input
                         id="user"
                         name="user"
-                        value={values.user}
+                        required
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        type="text"
-                        className="border-gray-400 border-[1px] w-[100%] rounded-md focus:border-[#317FB6] outline-none text-[1rem] py-[5px] px-2"
+                        value={values.user}
+                        placeholder="Enter the Thread user"
+                        className="w-full text-sm shadow-sm py-2 px-3 text-gray-900 rounded-md border bg-gray-50 outline-none  focus:ring-2 focus:ring-offset-0 focus:ring-blue-500"
                       />
                     </div>
                     <div className="title mb-5 ">
-                      <p className="font-semibold  text-[1rem] text-[#317FB6]">
-                        Tags
-                      </p>
+                      <label
+                        htmlFor="tags"
+                        className="tags_label w-full block mb-1 text-lg font-medium text-[#317FB6] "
+                      >
+                        Thread Tags
+                      </label>
                       <p className="text-[0.8rem] text-gray-600 mt-1">
                         Enter comma separated tags
                       </p>
                       <input
-                        name="tags"
                         id="tags"
-                        value={values.tags}
+                        name="tags"
+                        required
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        type="text"
-                        className="border-gray-400 border-[1px] w-[100%] rounded-md focus:border-[#317FB6] outline-none text-[1rem] py-[5px] px-2"
+                        value={values.tags}
+                        placeholder="Enter the Thread tags (at least 1)"
+                        className="w-full text-sm shadow-sm py-2 px-3 text-gray-900 rounded-md border bg-gray-50 outline-none  focus:ring-2 focus:ring-offset-0 focus:ring-blue-500"
                       />
+                      <ErrorMessage name="tags">
+                        {(msg) => (
+                          <p className="text-sm text-red-400 mt-1">{`*${msg}`}</p>
+                        )}
+                      </ErrorMessage>
                     </div>
                     <div className="mb-4">
-                      <p className="font-semibold  text-[1rem] text-[#317FB6]">
-                        Content
-                      </p>
+                      <label
+                        htmlFor="content"
+                        className="content_label w-full block mb-1 text-lg font-medium text-[#317FB6] "
+                      >
+                        Thread Content
+                      </label>
                       <p className="text-[0.8rem] text-gray-600 mt-1">
                         Include all the content you wanna share
                       </p>
                       <div>
-                        <Field
-                          name="content"
-                          validate={(value) => {
-                            let cleanHtml = sanitizeHtml(values.content);
-                            const tempElement = document.createElement("div");
-                            tempElement.innerHTML = cleanHtml;
-                            let plainText =
-                              tempElement.textContent || tempElement.innerText;
-                            tempElement.remove();
-                            let error;
-                            if (plainText.length <= 0)
-                              error = "Content cant be empy";
-                            return error;
-                          }}
-                        >
+                        <Field name="content">
                           {({ field }) => (
                             <ReactQuill
-                              name={field.name}
-                              id={field.name}
+                              onChange={field.onChange(field.name)}
+                              onBlur={() => handleBlur(field.name)}
                               placeholder="Write the Thread content here..."
                               theme="snow"
                               value={field.value}
-                              onChange={field.onChange(field.name)}
                               modules={modules}
                               formats={formats}
                             />
                           )}
                         </Field>
 
-                        {errors.content && (
-                          <p className="text-red-500 mt-1 text-sm">
-                            {errors.content}
-                          </p>
-                        )}
+                        <ErrorMessage name="content">
+                          {(msg) => (
+                            <p className="text-sm text-red-400 mt-1">{`*${msg}`}</p>
+                          )}
+                        </ErrorMessage>
                       </div>
                       <div className="mt-10">
                         <button
+                          disabled={isSubmitting}
                           type="submit"
-                          className="bg-[#317FB6] px-3 py-2 rounded-lg text-white"
+                          class="mb-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                         >
-                          Create
+                          Create Thread
                         </button>
                         <p className="text-sm mt-2 text-red-400">
                           You will be posting anonymously, and post according to

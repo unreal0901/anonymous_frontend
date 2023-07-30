@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { NavLink, Outlet, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
 
 import Logo from "../../Assets/android-chrome-192x192.png";
 import Breadcrumbs from "./BreadCrumbs";
@@ -11,6 +11,16 @@ import CreateBoardModal from "./CreateBoardModal";
 
 const RootLayout = () => {
   const { id, tid } = useParams();
+  const { pathname } = useLocation();
+
+  const [showMeta, setShowMeta] = useState(false);
+
+  useEffect(() => {
+    if (pathname !== "/") setShowMeta(true);
+    else setShowMeta(false);
+  }, [pathname, showMeta, setShowMeta]);
+
+  console.log(pathname);
   const boardData = useSelector(getCurrentBoard);
   const threadData = useSelector(getCurrentThread);
   const [createBoardModal, setCreateBoardModal] = useState(false);
@@ -60,7 +70,7 @@ const RootLayout = () => {
         </header>
         <main>
           <div className="border-b-2 mb-5 flex gap-3">
-            {!id && !tid && (
+            {!id && !tid && showMeta && (
               <div className="flex items-center gap-5 justify-between w-full">
                 <div className="my-5 bg-[#317fb6] w-max p-2 rounded-md text-white ">
                   <h2 className="text-md font-semibold">Boards</h2>

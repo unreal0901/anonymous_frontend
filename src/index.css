@@ -16,6 +16,23 @@
   /* overflow: hidden; */
 }
 
+*::-webkit-scrollbar {
+  width: 5px;
+  border-radius: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #fff;
+  border-radius: 12px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #317fb6;
+  border-radius: 12px;
+  width: 10px;
+  height: 5px;
+}
+
 body {
   margin: 0;
   /* padding: 20px; */

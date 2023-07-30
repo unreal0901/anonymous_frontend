@@ -151,7 +151,9 @@ const Threads = () => {
                   </div>
                   <div className="flex w-[45%] ml-auto justify-end">
                     <div className="mr-10 md:w-[15%] bg-[#F6F7F6] px-4 py-2 text-sm text-gray-500">
-                      <p className="text-center text-lg">1</p>
+                      <p className="text-center text-lg">
+                        {thread?.replyCount || 0}
+                      </p>
                       <p className="text-center">Reply</p>
                     </div>
                     <div className="mr-10 w-[23%] bg-[#F6F7F6] px-4 py-2 text-sm hidden md:block">
