@@ -30,3 +30,9 @@ html.dark .shimmer {
   background-size: 200% 100%;
   animation: shimmerAnimation 1.5s infinite;
 }
+
+@media (max-width: 768px) {
+  html.dark .shimmer {
+    min-width: 100% !important;
+  }
+}

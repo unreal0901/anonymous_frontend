@@ -93,7 +93,7 @@ const Threads = () => {
   return (
     <>
       <div className="mt-10 md:ml-3 ">
-        <div className="filter dark:bg-[#1E283A] dark:border-0 flex bg-[#F9F8FA] py-3 px-5 max-w-[90vw]  border-2 rounded-lg items-center justify-between">
+        <div className="filter dark:bg-[#1E283A] dark:border-0 flex bg-[#F9F8FA] py-3 md:px-5 px-2 max-w-[90vw]  border-2 rounded-lg items-center justify-between flex-wrap">
           <div className="filter_tools flex gap-5 items-center">
             <div className="flex gap-1 items-center">
               <span className="text-[#317FB6] text-[1.3rem]">
@@ -133,18 +133,18 @@ const Threads = () => {
                   className="thread flex border-b-2 dark:border-gray-400 dark:border-b pb-5 mt-5 justify-between"
                 >
                   <div className="flex ">
-                    <div className="flex gap-5 items-center">
+                    <div className="flex md:gap-5 gap-2 items-center">
                       <Avatar name="aditya" round={true} size="50" />
                       <div className="flex flex-col gap-1">
                         <NavLink
                           to={threaduri}
                           className="hover:underline underline-offset-2 text-[#317FB6]"
                         >
-                          <div className="title text-[#317FB6] text-[1.3rem] font-medium">
+                          <div className="title text-[#317FB6] md:text-[1.3rem] md:font-medium ">
                             {thread?.subject}
                           </div>
                         </NavLink>
-                        <div className="date text-sm text-gray-500">
+                        <div className="date md:text-sm text-[0.6rem] text-gray-500">
                           {format(
                             new Date(thread?.createdAt),
                             "MMM d, yyyy, hh:m a"
@@ -153,8 +153,8 @@ const Threads = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex w-[45%] ml-auto justify-end items-baseline md:items-stretch">
-                    <div className="mr-10 md:w-[15%] bg-[#F6F7F6] dark:bg-[#1E283A] dark:text-gray-400 px-4 py-2 text-sm text-gray-500 dark:rounded-lg">
+                  <div className="flex w-[45%] justify-end items-baseline md:items-stretch">
+                    <div className="md:mr-10 md:w-[15%] bg-[#F6F7F6] dark:bg-[#1E283A] dark:text-gray-400 px-4 py-2 text-sm text-gray-500 dark:rounded-lg">
                       <p className="text-center text-lg">
                         {thread?.replyCount || 0}
                       </p>
