@@ -1,16 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 import { usePostBoardMutation } from "../../services/api/BoardApi";
 import { ErrorMessage, Formik } from "formik";
+import LoadingScreen from "./LoadingScreen";
+import { toast } from "react-toastify";
 
 const CreateBoardModal = ({ closeModal }) => {
-  const [postBoard, { isLoading, isError }] = usePostBoardMutation();
+  const [postBoard, { isLoading, isError, isSuccess }] = usePostBoardMutation();
 
   const initialValues = {
     name: "",
     description: "",
     tags: "",
   };
+
+  useEffect(() => {
+    if (isSuccess && !isLoading) {
+      toast.success("Board Created Successfully");
+    }
+
+    if (isError && !isLoading) {
+      toast.error("Failed to create Board");
+    }
+  }, [isError, isLoading, isSuccess]);
 
   const postBoardHandler = async (values, { setSubmitting, resetForm }) => {
     try {
@@ -145,6 +157,7 @@ const CreateBoardModal = ({ closeModal }) => {
           )}
         </Formik>
       </div>
+      {isLoading ? <LoadingScreen /> : null}
     </>
   );
 };

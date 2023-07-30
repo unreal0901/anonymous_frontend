@@ -9,10 +9,13 @@ import {
 import { useSelector } from "react-redux";
 import { getCurrentThread } from "../../../features/Threads/ThreadSlice";
 import { threadApi } from "../../../services/api/ThreadApi";
+import LoadingScreen from "../../Layout/LoadingScreen";
+import { toast } from "react-toastify";
 
 const Comment = ({ setShowCommentBox, commentBoxRef }) => {
   const thread = useSelector(getCurrentThread);
-  const [postReply, { isLoading, isError }] = usePostThreadReplyMutation();
+  const [postReply, { isLoading, isError, isSuccess }] =
+    usePostThreadReplyMutation();
   const [trigger] = threadApi.endpoints.getThread.useLazyQuery();
   const [replyTrigger] = replyApi.endpoints.getThreadReplies.useLazyQuery();
 
@@ -78,6 +81,15 @@ const Comment = ({ setShowCommentBox, commentBoxRef }) => {
   }, [enteredName]);
 
   console.log(enteredName);
+
+  useEffect(() => {
+    if (isSuccess && !isLoading) {
+      toast.success("Reply added successfully");
+    }
+    if (isError && !isLoading) {
+      toast.error("Failed to add reply");
+    }
+  }, [isSuccess, isLoading, isError]);
 
   const CommentFunctions = (e, value) => {
     console.log(e, value);
@@ -153,6 +165,7 @@ const Comment = ({ setShowCommentBox, commentBoxRef }) => {
           </div>
         </div>
       </div>
+      {isLoading ? <LoadingScreen /> : null}
     </>
   );
 };

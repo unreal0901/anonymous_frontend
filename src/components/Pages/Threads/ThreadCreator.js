@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCurrentBoard } from "../../../features/Boards/BoardSlice";
 import { boardApi } from "../../../services/api/BoardApi";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
+import LoadingScreen from "../../Layout/LoadingScreen";
 const ThreadCreator = ({ closeModal }) => {
   const dispatch = useDispatch();
   Quill.register("modules/imageCompress", ImageCompress);
@@ -27,6 +29,16 @@ const ThreadCreator = ({ closeModal }) => {
       trigger(board?.boardNumber);
     }
   }, [isSuccess, isLoading, dispatch, board?.boardNumber, isError, trigger]);
+
+  useEffect(() => {
+    if (isSuccess && !isLoading) {
+      toast.success("Thread created Successfully");
+    }
+
+    if (isError && !isLoading) {
+      toast.success("Failed to create thread");
+    }
+  }, [isError, isLoading, isSuccess]);
 
   const modules = {
     toolbar: [
@@ -265,6 +277,7 @@ const ThreadCreator = ({ closeModal }) => {
           )}
         </Formik>
       </div>
+      {isLoading ? <LoadingScreen /> : null}
     </>
   );
 };

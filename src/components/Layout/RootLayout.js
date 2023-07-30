@@ -27,7 +27,7 @@ const RootLayout = () => {
 
   return (
     <>
-      <div className="root-layout p-3 overflow-auto">
+      <div className="root-layout p-3 overflow-auto relative">
         <header>
           <nav className="flex  justify-between py-2">
             <NavLink

@@ -13,6 +13,8 @@ import Thread from "./components/Pages/Threads/Thread";
 import Threads from "./components/Pages/Threads/Threads";
 import ErrorPage from "./components/Pages/ErrorPage/ErrorPage";
 import HomeLayout from "./components/Layout/HomeLayout";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Pages
 const router = createBrowserRouter(
@@ -35,7 +37,23 @@ const router = createBrowserRouter(
 );
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />;
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </>
+  );
 };
 
 export default App;
