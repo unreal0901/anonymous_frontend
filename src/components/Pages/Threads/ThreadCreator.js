@@ -97,7 +97,7 @@ const ThreadCreator = ({ closeModal }) => {
 
   return (
     <>
-      <div className="dark:bg-[#1E283A] dark:text-gray-400 thread_modal shadow-lg  p-3  overflow-y-auto fixed w-[80%] bg-white  h-[85vh] rounded-xl top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] ">
+      <div className="dark:bg-[#1E283A] dark:text-gray-400 thread_modal shadow-lg  md:p-3  overflow-y-auto fixed w-[90%] md:w-[80%] bg-white  h-[85vh] rounded-xl top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] ">
         {/* <button
           onClick={closeModal}
           className="text-white relative flex justify-center float-right text-[2rem] w-6 h-6 bg-[#317FB6] rounded-full mt-2 mr-2"
@@ -106,7 +106,7 @@ const ThreadCreator = ({ closeModal }) => {
           <div className="w-1  h-full bg-white absolute -rotate-45"></div>
         </button> */}
         <div
-          className="close_btn ml-auto w-min mr-2  mt-2 p-1 text-2xl text-red-400 hover:text-red-900 cursor-pointer"
+          className="close_btn ml-auto w-min mr-2 mt-1 md:mt-2 md:p-1 text-2xl text-red-400 hover:text-red-900 cursor-pointer"
           onClick={closeModal}
         >
           <i class="fa-solid fa-xmark"></i>
@@ -150,7 +150,7 @@ const ThreadCreator = ({ closeModal }) => {
             <>
               <form onSubmit={handleSubmit}>
                 <div>
-                  <div className=" py-5 px-10">
+                  <div className=" md:py-5 md:px-10 px-3">
                     <div className="title mb-5 ">
                       <label
                         htmlFor="subject"

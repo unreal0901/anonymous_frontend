@@ -153,7 +153,7 @@ const Threads = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex w-[45%] ml-auto justify-end">
+                  <div className="flex w-[45%] ml-auto justify-end items-baseline md:items-stretch">
                     <div className="mr-10 md:w-[15%] bg-[#F6F7F6] dark:bg-[#1E283A] dark:text-gray-400 px-4 py-2 text-sm text-gray-500 dark:rounded-lg">
                       <p className="text-center text-lg">
                         {thread?.replyCount || 0}

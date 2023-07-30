@@ -32,13 +32,13 @@ const IndividualBoard = () => {
               {boardData?.name}
             </div>
           </div>
-          <div className="tags mt-3 dark:text-gray-400 dark:border-gray-400 ">
+          <div className="tags mt-3 dark:text-gray-400 dark:border-gray-400 flex items-baseline flex-wrap md:block">
             <span className="mr-3 text-md font-medium">Tags:</span>
             {boardData?.tags ? (
               boardData.tags.map((e) => (
                 <code
                   key={e.id}
-                  className="py-[2px] px-3 border-2 rounded-lg text-sm mr-2 dark:border-gray-400"
+                  className="py-[2px] px-3 border-2 rounded-lg text-sm mr-2 dark:border-gray-400 mb-2"
                 >
                   {e.title}
                 </code>

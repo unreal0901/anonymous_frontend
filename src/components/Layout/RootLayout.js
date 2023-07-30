@@ -40,7 +40,7 @@ const RootLayout = () => {
                 Leak.it
               </span>
             </NavLink>
-            <div className="flex justify-between gap-4 mr-10">
+            <div className="flex justify-between md:gap-4 gap-2 md:mr-10 mr-2">
               <ThemeToggleIcon />
 
               <NavLink
