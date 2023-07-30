@@ -39,7 +39,7 @@ const router = createBrowserRouter(
 const App = () => {
   return (
     <>
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
       <ToastContainer
         position="top-right"
         autoClose={5000}

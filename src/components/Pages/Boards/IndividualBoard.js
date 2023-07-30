@@ -23,22 +23,22 @@ const IndividualBoard = () => {
         Home
       </NavLink>
       {!tid ? (
-        <div className="flex flex-col ml-2">
+        <div className="flex flex-col ml-2 dark:text-white">
           <div className="mt-5 flex gap-3 items-center">
             <div>
               <Avatar name={boardData?.name} round="10px" size={60} />
             </div>
-            <div className="text-[2rem] font-medium text-gray-800">
+            <div className="text-[2rem] font-medium text-gray-800 dark:text-white">
               {boardData?.name}
             </div>
           </div>
-          <div className="tags mt-3">
+          <div className="tags mt-3 dark:text-gray-400 dark:border-gray-400 ">
             <span className="mr-3 text-md font-medium">Tags:</span>
             {boardData?.tags ? (
               boardData.tags.map((e) => (
                 <code
                   key={e.id}
-                  className="py-[2px] px-3 border-2 rounded-lg text-sm mr-2"
+                  className="py-[2px] px-3 border-2 rounded-lg text-sm mr-2 dark:border-gray-400"
                 >
                   {e.title}
                 </code>
@@ -47,7 +47,7 @@ const IndividualBoard = () => {
               <span className="text-sm font-light">No tags</span>
             )}
 
-            <code className="py-[2px] px-3 border-2 rounded-lg text-sm block w-max mt-2">
+            <code className="py-[2px] px-3 border-2 rounded-lg text-sm block w-max mt-2 dark:border-gray-400">
               {boardData?.threadCount || 0} threads
             </code>
           </div>

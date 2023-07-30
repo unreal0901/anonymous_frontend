@@ -7,7 +7,7 @@ const HomeLayout = () => {
     <>
       <div className=" flex flex-col  md:gap-0 items-center md:flex-row md:items-center md:justify-center overflow-hidden">
         <div className="pl-4 order-2 md:order-[-1]">
-          <h1 className="  text-[2rem] md:text-[4rem] font-extrabold text-[#307eb6]">
+          <h1 className="  text-[2rem] md:text-[4rem] font-extrabold text-[#307eb6] dark:text-[#307eb6]">
             Welcome to leak.it
           </h1>
           <p className="text-[1rem] md:text-[2rem]  font-bold">
@@ -19,7 +19,7 @@ const HomeLayout = () => {
           <p className="text-[2rem] font-bold text-[#307eb6] hidden md:block">
             Anonymously on leak.it!
           </p>
-          <p className="mt-2 text-[1rem]  md:text-[2rem] font-bold text-[#000] w-full">
+          <p className="mt-2 text-[1rem]  md:text-[2rem] font-bold text-[#000] w-full dark:text-white">
             Confess.Express.Anonymously
           </p>
           <NavLink to="/boards">

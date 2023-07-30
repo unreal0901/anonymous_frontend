@@ -97,7 +97,7 @@ const ThreadCreator = ({ closeModal }) => {
 
   return (
     <>
-      <div className="thread_modal shadow-lg  p-3  overflow-y-auto fixed w-[80%] bg-white  h-[85vh] rounded-xl top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] ">
+      <div className="dark:bg-[#1E283A] dark:text-gray-400 thread_modal shadow-lg  p-3  overflow-y-auto fixed w-[80%] bg-white  h-[85vh] rounded-xl top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] ">
         {/* <button
           onClick={closeModal}
           className="text-white relative flex justify-center float-right text-[2rem] w-6 h-6 bg-[#317FB6] rounded-full mt-2 mr-2"
@@ -158,7 +158,7 @@ const ThreadCreator = ({ closeModal }) => {
                       >
                         Thread Subject
                       </label>
-                      <p className="text-[0.8rem] text-gray-600 mt-1">
+                      <p className="text-[0.8rem] text-gray-600 mt-1 dark:text-gray-400">
                         Enter the subject, this will be shown as heading of your
                         thread
                       </p>
@@ -185,7 +185,7 @@ const ThreadCreator = ({ closeModal }) => {
                       >
                         User
                       </label>
-                      <p className="text-[0.8rem] text-gray-600 mt-1">
+                      <p className="text-[0.8rem] text-gray-600 mt-1 dark:text-gray-400">
                         Enter the dummy username (optional)
                       </p>
                       <input
@@ -202,11 +202,11 @@ const ThreadCreator = ({ closeModal }) => {
                     <div className="title mb-5 ">
                       <label
                         htmlFor="tags"
-                        className="tags_label w-full block mb-1 text-lg font-medium text-[#317FB6] "
+                        className="tags_label w-full block mb-1 text-lg font-medium text-[#317FB6]  "
                       >
                         Thread Tags
                       </label>
-                      <p className="text-[0.8rem] text-gray-600 mt-1">
+                      <p className="text-[0.8rem] text-gray-600 mt-1 dark:text-gray-400">
                         Enter comma separated tags
                       </p>
                       <input
@@ -232,7 +232,7 @@ const ThreadCreator = ({ closeModal }) => {
                       >
                         Thread Content
                       </label>
-                      <p className="text-[0.8rem] text-gray-600 mt-1">
+                      <p className="text-[0.8rem] text-gray-600 mt-1 dark:text-gray-400">
                         Include all the content you wanna share
                       </p>
                       <div>
@@ -243,6 +243,7 @@ const ThreadCreator = ({ closeModal }) => {
                               onBlur={() => handleBlur(field.name)}
                               placeholder="Write the Thread content here..."
                               theme="snow"
+                              className="dark:bg-[#F9FAFB]"
                               value={field.value}
                               modules={modules}
                               formats={formats}

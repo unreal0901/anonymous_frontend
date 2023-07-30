@@ -149,7 +149,7 @@ const Comment = ({ setShowCommentBox, commentBoxRef }) => {
           </div>
           <div className="flex justify-end sumit_cancel mt-3 w-full pr-4 gap-4">
             <button
-              className="hover:bg-[#c4c4c4] px-3 py-1 rounded-2xl"
+              className="hover:bg-[#c4c4c4] dark:hover:text-black px-3 py-1 rounded-2xl"
               onClick={(e) => CommentFunctions(e, "hide")}
             >
               Cancel
@@ -158,7 +158,7 @@ const Comment = ({ setShowCommentBox, commentBoxRef }) => {
               type="submit"
               onClick={replyHandler}
               disabled={reply.length === 0}
-              className="bg-[#317fb6] px-3 py-1 rounded-2xl disabled:bg-[#c4c4c4]"
+              className="bg-[#317fb6] text-white px-3 py-1 rounded-2xl disabled:bg-[#c4c4c4] dark:disabled:text-gray-400 dark:hover:text-white"
             >
               Reply
             </button>

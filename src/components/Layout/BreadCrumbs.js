@@ -20,5 +20,9 @@ export default function Breadcrumbs() {
         </div>
       );
     });
-  return <div className="breadcrumbs mt-10 ml-10">{crumbs}</div>;
+  return (
+    <>
+      <div className="breadcrumbs mt-10 ml-10">{crumbs}</div>
+    </>
+  );
 }

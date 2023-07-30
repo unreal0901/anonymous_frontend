@@ -1,23 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Comment from "./Comment";
 import Reply from "./Reply";
 import Shimmer from "../../Shimmer/Shimmer";
 import { useGetThreadRepliesQuery } from "../../../services/api/ReplyApi";
 import { useSelector } from "react-redux";
 import { getCurrentThread } from "../../../features/Threads/ThreadSlice";
+import { setReplies } from "../../../features/Replies/ReplySlice";
 
 const Replies = ({ tid }) => {
   const {
     data: replies,
     isLoading,
     isFetching,
+    isSuccess,
   } = useGetThreadRepliesQuery(tid);
 
   const threadData = useSelector(getCurrentThread);
+  const [repliesContainer, setRepliesContainer] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading && !isFetching && isSuccess && replies?.length > 0)
+      setRepliesContainer(true);
+    else setRepliesContainer(false);
+  }, [isLoading, isFetching, replies?.length, isSuccess]);
+
+  console.log(repliesContainer);
 
   return (
     <>
-      <div className="mt-8 px-4 py-2 bg-[#fafafa]">
+      <div className="mt-8 px-4 py-2 bg-[#fafafa] dark:bg-[#1E283A] dark:rounded-lg dark:text-gray-400">
         <div className="add_comment flex gap-5 items-center text-[1rem] mt-2">
           <div>
             <p>{threadData?.replyCount || 0} Replies</p>
@@ -28,7 +39,12 @@ const Replies = ({ tid }) => {
           </div>
         </div>
         <Comment />
-        <div className="replies mt-7 bg-[#c4c4c4] p-2 rounded-lg">
+
+        <div
+          className={`replies mt-7 bg-[#c4c4c4b6] dark:bg-transparent ${
+            repliesContainer ? "p-2" : ""
+          } rounded-lg`}
+        >
           {isLoading || isFetching ? (
             <div className="flex flex-col gap-2">
               {[1, 2, 3, 4].map((e, i) => {

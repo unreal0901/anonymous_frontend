@@ -23,12 +23,12 @@ const Post = ({ postData }) => {
 
   return (
     <>
-      <div className="post bg-[#fafafa] px-5 py-3 mt-3 rounded-lg">
+      <div className="post bg-[#fafafa] px-5 py-3 mt-3 rounded-lg dark:bg-[#1E283A] p-2 dark:text-gray-400">
         <div className="head">
           <div className="flex gap-1 items-center">
             <Avatar name={boardName} size="20" round={true} />
             <p>{boardName} .</p>
-            <div className="post_meta text-xs flex gap-1 items-center text-gray-600">
+            <div className="post_meta text-xs flex gap-1 items-center text-gray-600 dark:text-gray-400">
               <p className="posted_by">Posted by {post?.user}</p>
               <p className="postedDate">
                 {formatDistanceToNow(new Date(post?.createdAt))}
@@ -38,7 +38,7 @@ const Post = ({ postData }) => {
         </div>
         <ThreadLayout />
         <div
-          className="content"
+          className="content  "
           dangerouslySetInnerHTML={{ __html: getContent(post?.content) }}
         ></div>
       </div>

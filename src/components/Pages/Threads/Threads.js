@@ -56,16 +56,20 @@ const Threads = () => {
   const [threadCreator, showThreadCreator] = useState(false);
 
   const threadCreatorHandler = () => {
-    let html = document.getElementsByTagName("html");
+    let page = document.documentElement;
+    let isDarkMode = page.classList.contains("dark");
     let root = document.querySelector("#root");
+    let html = document.getElementsByTagName("html");
     console.log(root);
     showThreadCreator((prev) => !prev);
-    if (!threadCreator) {
-      root.style.opacity = "0.1";
-      html[0].style.overflowY = "hidden";
-    } else {
-      html[0].style.overflowY = "auto";
-      root.style.opacity = "1";
+    if (!isDarkMode) {
+      if (!threadCreator) {
+        root.style.opacity = "0.1";
+        html[0].style.overflowY = "hidden";
+      } else {
+        html[0].style.overflowY = "auto";
+        root.style.opacity = "1";
+      }
     }
   };
 
@@ -89,7 +93,7 @@ const Threads = () => {
   return (
     <>
       <div className="mt-10 md:ml-3 ">
-        <div className="filter flex bg-[#F9F8FA] py-3 px-5 max-w-[90vw]  border-2 rounded-lg items-center justify-between">
+        <div className="filter dark:bg-[#1E283A] dark:border-0 flex bg-[#F9F8FA] py-3 px-5 max-w-[90vw]  border-2 rounded-lg items-center justify-between">
           <div className="filter_tools flex gap-5 items-center">
             <div className="flex gap-1 items-center">
               <span className="text-[#317FB6] text-[1.3rem]">
@@ -126,7 +130,7 @@ const Threads = () => {
               return (
                 <div
                   key={thread?.threadNumber}
-                  className="thread flex border-b-2 pb-5 mt-5 justify-between"
+                  className="thread flex border-b-2 dark:border-gray-400 dark:border-b pb-5 mt-5 justify-between"
                 >
                   <div className="flex ">
                     <div className="flex gap-5 items-center">
@@ -150,19 +154,19 @@ const Threads = () => {
                     </div>
                   </div>
                   <div className="flex w-[45%] ml-auto justify-end">
-                    <div className="mr-10 md:w-[15%] bg-[#F6F7F6] px-4 py-2 text-sm text-gray-500">
+                    <div className="mr-10 md:w-[15%] bg-[#F6F7F6] dark:bg-[#1E283A] dark:text-gray-400 px-4 py-2 text-sm text-gray-500 dark:rounded-lg">
                       <p className="text-center text-lg">
                         {thread?.replyCount || 0}
                       </p>
                       <p className="text-center">Reply</p>
                     </div>
-                    <div className="mr-10 w-[23%] bg-[#F6F7F6] px-4 py-2 text-sm hidden md:block">
+                    <div className="mr-10 w-[23%] bg-[#F6F7F6] px-4 py-2 text-sm hidden md:block dark:bg-[#1E283A] dark:text-gray-400 dark:rounded-lg">
                       <p className="">Created</p>
                       <p>{formatDistanceToNow(new Date(thread?.createdAt))}</p>
                     </div>
-                    <div className="bg-[#F6F7F6] w-[50%] px-4 py-2 border-l-2 border-[#58B2D0] text-sm hidden md:block">
+                    <div className="bg-[#F6F7F6] w-[50%] px-4 py-2 border-l-2 border-[#58B2D0] text-sm hidden md:block dark:bg-[#1E283A] dark:text-gray-400 dark:rounded-lg">
                       <div className="flex gap-2 mr-10">
-                        <Avatar name="aditya" round={true} size="20" />
+                        <Avatar name={thread?.user} round={true} size="20" />
                         <div className="date text-sm text-gray-500">
                           {format(
                             new Date(thread?.createdAt),

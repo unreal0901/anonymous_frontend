@@ -8,6 +8,7 @@ import { getCurrentBoard } from "../../features/Boards/BoardSlice";
 import { getCurrentThread } from "../../features/Threads/ThreadSlice";
 import { createPortal } from "react-dom";
 import CreateBoardModal from "./CreateBoardModal";
+import ThemeToggleIcon from "./ThemeToggleIcon";
 
 const RootLayout = () => {
   const { id, tid } = useParams();
@@ -27,7 +28,7 @@ const RootLayout = () => {
 
   return (
     <>
-      <div className="root-layout p-3 overflow-auto relative">
+      <div className="root-layout p-3 overflow-auto relative dark:bg-[#0E162A] dark:text-white">
         <header>
           <nav className="flex  justify-between py-2">
             <NavLink
@@ -35,9 +36,13 @@ const RootLayout = () => {
               className="ml-5 flex items-center gap-2  cursor-pointer"
             >
               <img src={Logo} alt="logo" className="w-7" />
-              <span className="text-[1.3rem] font-bold">Leak.it</span>
+              <span className="text-[1.3rem] font-bold dark:text-white">
+                Leak.it
+              </span>
             </NavLink>
             <div className="flex justify-between gap-4 mr-10">
+              <ThemeToggleIcon />
+
               <NavLink
                 to="/"
                 className={({ isActive, isPending }) =>
@@ -69,7 +74,7 @@ const RootLayout = () => {
           <Breadcrumbs />
         </header>
         <main>
-          <div className="border-b-2 mb-5 flex gap-3">
+          <div className="border-b-2 dark:border-[#95A2B8] mb-5 flex gap-3">
             {!id && !tid && showMeta && (
               <div className="flex items-center gap-5 justify-between w-full">
                 <div className="my-5 bg-[#317fb6] w-max p-2 rounded-md text-white ">
@@ -82,7 +87,7 @@ const RootLayout = () => {
                       console.log("Clicked");
                       setCreateBoardModal((prev) => !prev);
                     }}
-                    className="w-max  px-3 bg-pink-200  py-3 rounded mr-10"
+                    className="w-max  px-3 bg-pink-200 hover:bg-pink-100  py-3 rounded mr-10 dark:bg-pink-400 dark:hover:bg-pink-300"
                   >
                     Add Board
                   </button>
@@ -92,7 +97,7 @@ const RootLayout = () => {
 
             {id && (
               <div className="">
-                <div className="my-5 bg-pink-400 w-max p-2 rounded-md text-white ">
+                <div className="my-5 bg-pink-400 dark:bg-pink-600 w-max p-2 rounded-md text-white ">
                   <h2 className="text-md font-semibold">{boardData?.name}</h2>
                   <p className="text-sm">Current Board</p>
                 </div>
@@ -101,7 +106,7 @@ const RootLayout = () => {
 
             {tid && (
               <div className="">
-                <div className="my-5 bg-purple-400 w-max p-2 rounded-md text-white ">
+                <div className="my-5 bg-purple-400 dark:bg-purple-600 w-max p-2 rounded-md text-white">
                   <h2 className="text-md font-semibold">
                     {threadData?.subject}
                   </h2>
