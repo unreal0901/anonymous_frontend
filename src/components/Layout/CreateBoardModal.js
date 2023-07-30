@@ -45,7 +45,7 @@ const CreateBoardModal = ({ closeModal }) => {
 
   return (
     <>
-      <div className="md:w-[50vw] w-[80vw] shadow-lg p-3 rounded-xl absolute z-10 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-[#fff] dark:bg-[#1E283A] dark:text-gray-400">
+      <div className="md:w-[40vw] w-[80vw] shadow-lg p-3 rounded-xl absolute z-10 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-[#fff] dark:bg-[#1E283A] dark:text-gray-400">
         <div
           className="close_btn ml-auto w-min mr-2  mt-2 p-1 text-2xl text-red-400 hover:text-red-900 cursor-pointer"
           onClick={() => closeModal(false)}

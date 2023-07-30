@@ -81,6 +81,7 @@ const RootLayout = () => {
                   <h2 className="text-md font-semibold">Boards</h2>
                   <p className="text-sm">Currently opened boards</p>
                 </div>
+
                 <div className="">
                   <button
                     onClick={() => {
