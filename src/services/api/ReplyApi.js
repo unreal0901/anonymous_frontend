@@ -31,9 +31,32 @@ export const replyApi = createApi({
         return result?.data;
       },
     }),
+    getChildReplies: builder.query({
+      query(parentReplyId) {
+        return {
+          url: "reply/childReplies",
+          credentials: "include",
+          params: {
+            parentReplyId: parentReplyId,
+          },
+        };
+      },
+      providesTags: ["Reply"],
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          console.log(data);
+        } catch (error) {}
+      },
+
+      transformResponse: (result) => {
+        return result?.data;
+      },
+    }),
     postThreadReply: builder.mutation({
       query(payload) {
-        const { threadNumber, text, user } = payload;
+        console.log(payload);
+        const { threadNumber, text, user, parentReplyNumber = null } = payload;
         return {
           url: "reply/create",
           credentials: "include",
@@ -42,7 +65,7 @@ export const replyApi = createApi({
             threadNumber,
             text,
             user,
-            parentReplyId: null,
+            parentReplyNumber: parentReplyNumber,
           },
         };
       },
@@ -61,5 +84,8 @@ export const replyApi = createApi({
   }),
 });
 
-export const { useGetThreadRepliesQuery, usePostThreadReplyMutation } =
-  replyApi;
+export const {
+  useGetThreadRepliesQuery,
+  usePostThreadReplyMutation,
+  useGetChildRepliesQuery,
+} = replyApi;
