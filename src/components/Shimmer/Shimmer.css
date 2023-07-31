@@ -32,7 +32,7 @@ html.dark .shimmer {
 }
 
 @media (max-width: 768px) {
-  html.dark .shimmer {
+  .shimmer {
     min-width: 100% !important;
   }
 }
