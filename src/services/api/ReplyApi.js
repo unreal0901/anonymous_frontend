@@ -1,6 +1,6 @@
 import baseQuery from "../utils/customFetchBase";
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { setThreads } from "../../features/Threads/ThreadSlice";
+// import { setThreads } from "../../features/Threads/ThreadSlice";
 import { setReplies } from "../../features/Replies/ReplySlice";
 
 export const replyApi = createApi({
